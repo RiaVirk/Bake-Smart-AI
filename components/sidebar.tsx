@@ -1,5 +1,5 @@
 "use client";
-import { Home, BreadSlice, BarChart3, Trash2, Truck, Euro, Settings } from "lucide-react";
+import { MdHome, MdBakeryDining, MdBarChart, MdDelete, MdLocalShipping, MdEuroSymbol, MdSettings } from "react-icons/md";
 import Link from "next/link";
 
 export function Sidebar() {
@@ -8,25 +8,25 @@ export function Sidebar() {
       <div className="text-2xl font-bold mb-8">🍞 BakeSmart</div>
       <nav className="space-y-2">
         <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl">
-          <Home /> Dashboard
+          <MdHome size={20} /> Dashboard
         </Link>
         <Link href="/production" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl">
-          <BreadSlice /> Produktion
+          <MdBakeryDining size={20} /> Produktion
         </Link>
         <Link href="/sales" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl">
-          <BarChart3 /> Verkauf
+          <MdBarChart size={20} /> Verkauf
         </Link>
         <Link href="/waste" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl">
-          <Trash2 /> Abfall
+          <MdDelete size={20} /> Abfall
         </Link>
         <Link href="/operations" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl">
-          <Truck /> Betrieb
+          <MdLocalShipping size={20} /> Betrieb
         </Link>
         <Link href="/revenue" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl">
-          <Euro /> Umsatz
+          <MdEuroSymbol size={20} /> Umsatz
         </Link>
         <Link href="/settings" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-800 rounded-xl">
-          <Settings /> Einstellungen
+          <MdSettings size={20} /> Einstellungen
         </Link>
       </nav>
     </div>
