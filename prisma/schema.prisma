@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -96,6 +97,7 @@ model WasteLog {
   id        String   @id @default(cuid())
   productId String
   quantity  Int
+  reason    String?
   date      DateTime @default(now())
   tenantId  String
 
