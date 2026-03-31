@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="de" className={cn("font-sans", figtree.variable)}>
+      <html lang="en" className={cn("font-sans", figtree.variable)}>
         <body>{children}</body>
       </html>
     </ClerkProvider>

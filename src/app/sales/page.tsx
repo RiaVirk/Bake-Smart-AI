@@ -17,7 +17,6 @@ export default function SalesPage() {
   });
   const [loading, setLoading] = useState(false);
 
-  // Load products and existing sales
   useEffect(() => {
     fetchProducts();
     fetchSales();
@@ -50,43 +49,42 @@ export default function SalesPage() {
       });
 
       if (res.ok) {
-        alert("✅ Verkauf gespeichert!");
+        alert("✅ Sale saved!");
         setFormData({
           productId: "",
           quantity: "",
           date: new Date().toISOString().split("T")[0],
         });
-        fetchSales(); // refresh table
+        fetchSales();
       } else {
         const error = await res.json();
-        alert(error.error || "Fehler beim Speichern");
+        alert(error.error || "Error saving sale");
       }
     } catch (err) {
-      alert("Fehler – bitte nochmal versuchen");
+      alert("Error – please try again");
     }
     setLoading(false);
   };
 
   return (
     <div className="max-w-6xl mx-auto space-y-8">
-      <h1 className="text-3xl font-bold">📊 Verkauf erfassen</h1>
+      <h1 className="text-3xl font-bold">📊 Record Sales</h1>
 
-      {/* Form */}
       <Card>
         <CardHeader>
-          <CardTitle>Neuen Verkauf eintragen</CardTitle>
+          <CardTitle>Add New Sale</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <Label>Produkt</Label>
+              <Label>Product</Label>
               <select
                 value={formData.productId}
                 onChange={(e) => setFormData({ ...formData, productId: e.target.value })}
                 className="w-full border border-gray-300 rounded-lg p-3"
                 required
               >
-                <option value="">— Produkt wählen —</option>
+                <option value="">— Select a product —</option>
                 {products.map((p) => (
                   <option key={p.id} value={p.id}>
                     {p.name}
@@ -96,10 +94,10 @@ export default function SalesPage() {
             </div>
 
             <div>
-              <Label>Menge</Label>
+              <Label>Quantity</Label>
               <Input
                 type="number"
-                placeholder="z. B. 120"
+                placeholder="e.g. 120"
                 value={formData.quantity}
                 onChange={(e) => setFormData({ ...formData, quantity: e.target.value })}
                 required
@@ -107,7 +105,7 @@ export default function SalesPage() {
             </div>
 
             <div>
-              <Label>Datum</Label>
+              <Label>Date</Label>
               <Input
                 type="date"
                 value={formData.date}
@@ -117,34 +115,33 @@ export default function SalesPage() {
 
             <div className="md:col-span-3">
               <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? "Speichern..." : "Verkauf speichern"}
+                {loading ? "Saving..." : "Save Sale"}
               </Button>
             </div>
           </form>
         </CardContent>
       </Card>
 
-      {/* History Table */}
       <Card>
         <CardHeader>
-          <CardTitle>Letzte Verkäufe</CardTitle>
+          <CardTitle>Recent Sales</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
-            <p className="text-center py-8">Lade Verkäufe...</p>
+            <p className="text-center py-8">Loading sales...</p>
           ) : (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Datum</TableHead>
-                  <TableHead>Produkt</TableHead>
-                  <TableHead className="text-right">Menge</TableHead>
+                  <TableHead>Date</TableHead>
+                  <TableHead>Product</TableHead>
+                  <TableHead className="text-right">Quantity</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {sales.map((sale: any) => (
                   <TableRow key={sale.id}>
-                    <TableCell>{new Date(sale.date).toLocaleDateString("de-DE")}</TableCell>
+                    <TableCell>{new Date(sale.date).toLocaleDateString("en-GB")}</TableCell>
                     <TableCell className="font-medium">{sale.product?.name}</TableCell>
                     <TableCell className="text-right font-mono">{sale.quantity}</TableCell>
                   </TableRow>
@@ -152,7 +149,7 @@ export default function SalesPage() {
                 {sales.length === 0 && (
                   <TableRow>
                     <TableCell colSpan={3} className="text-center py-8 text-gray-400">
-                      Noch keine Verkäufe eingetragen
+                      No sales recorded yet
                     </TableCell>
                   </TableRow>
                 )}
