@@ -1,13 +1,103 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  branches        Branch[]
+  products        Product[]
+  sales           Sale[]
+  forecasts       Forecast[]
+  productionPlans ProductionPlan[]
+  wasteLogs       WasteLog[]
+  users           User[]
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  tenantId  String
+  role      String   @default("owner")
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+}
+
+model Branch {
+  id        String   @id @default(cuid())
+  name      String
+  tenantId  String
+  createdAt DateTime @default(now())
+
+  tenant Tenant @relation(fields: [tenantId], references: [id])
+}
+
+model Product {
+  id        String   @id @default(cuid())
+  name      String
+  tenantId  String
+  createdAt DateTime @default(now())
+
+  tenant          Tenant           @relation(fields: [tenantId], references: [id])
+  sales           Sale[]
+  forecasts       Forecast[]
+  productionPlans ProductionPlan[]
+  wasteLogs       WasteLog[]
+}
+
+model Sale {
+  id        String   @id @default(cuid())
+  productId String
+  quantity  Int
+  date      DateTime
+  tenantId  String
+  createdAt DateTime @default(now())
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Forecast {
+  id           String   @id @default(cuid())
+  productId    String
+  date         DateTime
+  conservative Int
+  expected     Int
+  optimistic   Int
+  tenantId     String
+  createdAt    DateTime @default(now())
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model ProductionPlan {
+  id        String   @id @default(cuid())
+  productId String
+  date      DateTime
+  quantity  Int
+  tenantId  String
+  createdAt DateTime @default(now())
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model WasteLog {
+  id        String   @id @default(cuid())
+  productId String
+  quantity  Int
+  date      DateTime @default(now())
+  tenantId  String
+
+  tenant  Tenant  @relation(fields: [tenantId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
